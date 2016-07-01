@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="Css/_homePage.css">
+    <link rel="stylesheet" href="Css/progress-bars/circular-arc/circular-arc.css">
+    <link rel="stylesheet" href="Css/progress-bars/spinning-awesome/spinning-awesome.css">
+    <link rel="stylesheet" href="Css/progress-bars/voluming-sticks/voluming-sticks.css">
+    <link rel="stylesheet" href="Css/progress-bars/shining-symbols/shining-symbols.css">
+    <link rel="stylesheet" href="Css/progress-bars/signal-sticks/signal-sticks.css">
+    <link rel="stylesheet" href="Css/progress-bars/vanishing-dots/vanishing-dots.css">
+    <link rel="stylesheet" href="Css/progress-bars/vanishing-spans/vanishing-spans.css">
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script src="js/fireBarTemp.js"></script>
+    <script>
+        $(document).ready(function () {
+            //Gets TITLE AND ARTIST NAME
+            $("#topLeftButton").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "testB.xml",
+                    dataType:'xml',
+                    success: function (xml,data,status) {
+                        alert("here");
+                    },
+                    error: function () {
+                        alert("Eororr ");
+                    }
+                });
+            });
+            /*
+            $("#formA").submit(function (event) {
+                $form = $(this);
+                var arr = {
+                    "name": $form.find("input[name = 'name']").val(),
+                    "city": $form.find("input[name = 'surname']").val(),
+                    //Loading Bar related to Ajax Request
+                    "loadingBar": '#topLeftLoad'
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'demo_test_post.aspx',
+                    data: JSON.stringify(arr),
+                    success: function (data, status) { alert("HERE"); }
+                });
+            });
+            */
+
+            $("#topRightButton").click(function () {
+                var arr = {
+                    "loadingBar": '#topRightLoad'
+                }
+                $.ajax({
+                    url: 'testB.xml',
+                    type: 'POST',          
+                    data: JSON.stringify(arr),
+                    dataType: "xml",
+                    success: function () {
+                        alert("here");
+                    },
+                    error: function () {
+                        alert("Company Country ");
+                    }
+                });
+            });
+            //$("#centerButton").click(function () {
+            //    $('input[data-fire-url="testAja.xml"]').each(function () {
+            //        alert($(this).attr("value"));
+            //    });
+            //});
+            $("#bottomLeftButton").click(function(){
+                $.ajax({
+                    type: "GET",
+                    url: "testC.xml",
+                    dataType: "xml",
+                    success: function (xml) {
+                        $("#titlePrice").append("<ul>Title And Price</ul>");
+                        $(xml).find('CD').each(function () {
+                            var cdTitle = $(this).find('TITLE').text();
+                            var cdPrice = $(this).find('PRICE').text();
+                            $("<li></li>").html(cdTitle + ' , ' + cdPrice).appendTo("#titlePrice");
+                        });
+                    },
+                    error: function () {
+                        alert("Title Price ");
+                    }
+                });
+            });
+            $("#bottomRightButton").click(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "testD.xml",
+                    dataType: "xml",
+                    success: function (xml) {
+                        $("#titleArtistYear").append("<ul>Title Artist And Year</ul>");
+                        $(xml).find('CD').each(function () {
+                            var cdTitle = $(this).find('TITLE').text();
+                            var cdArtist = $(this).find('ARTIST').text();
+                            var cdYear = $(this).find('YEAR').text();
+                            $("<li></li>").html(cdTitle + ' , ' + cdArtist + ' , ' + cdYear).appendTo("#titleArtistYear");
+                        });
+                    },
+                    error: function () {
+                        alert("Title Artist Year ");
+                    }
+                });
+            });
+            $("#centerButton").click(function () {
+                $('input[data-fire-url]').each(function () {
+                    //alert(document.getElementById("centerButton").getAttribute("data-fireAll-url"));
+                    if ($(this).attr("data-fire-url") === (document.getElementById("centerButton").getAttribute("data-fireAll-url"))) {
+                        $(this).click();
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div>
+        <div class="front-content bottom-right-radius">
+            <h1>Top Left</h1>
+            <p style="text-align:center">TOP-LEFT LOADING BAR  </p>
+            <div id="topLeft">
+                <input type="button" id="topLeftButton" value="Top Left">
+                <div id="topLeftLoad" data-fire-url="testA.xml" style="display:none; width:100%; height:60px">
+                    <div class="vanishing-spans">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                </div>
+                <div id="titleArtist" style="width:75%; height:20vh;overflow:auto;padding:0.5vh 15vh 5vh  0.5vh"></div>
+            </div>
+        </div>
+
+        <div class="front-content bottom-left-radius">
+            <h1 style="text-align:center">Top Right</h1>
+            <p style="text-align:center"> TOP-RIGHT LOADING BAR  </p>
+            <div id="topRight">
+                <input type="button" id="topRightButton" value="Top Right">
+                <div id="topRightLoad" data-fire-url="testB.xml" style="display:none; width:100%; height:60px">
+                    <div class="circular-arc"></div>
+                </div>
+                <!--<div id="topRightLoad" class="hidden" data-fire-url="Ajax.aspx/sss.xxx" style="width:100%; height:60px">
+                    <div class="circular-arc"></div>
+                </div>-->
+                <div id="compCountry" style="width:75%; height:20vh;overflow:auto; padding:0.5vh 15vh 5vh  0.5vh"></div>
+            </div>
+        </div>
+        <div class="all-alert">
+            <input type="button" id="centerButton" data-fireAll-url="testCommon.xml" value="Click!">
+        </div>
+
+        <div class="front-content top-right-radius">
+            <h1 style="text-align:center">Bottom Left</h1>
+            <p style="text-align:center">BOTTOM-LEFT LOADING BAR  </p>
+            <div id="bottomLeft">
+                <input type="button" id="bottomLeftButton" value="Bottom Left">
+                <div id="bottomLeftLoad" data-fire-url="testC.xml" style="display:none; width:100%; height:60px">
+                    <div class="spinning-awesome"></div>
+                </div>
+                <div id="titlePrice" style="width:75%; height:20vh;overflow:auto;padding:0.5vh 15vh 5vh  0.5vh"></div>
+            </div>
+        </div>
+
+        <div class="front-content top-left-radius">
+            <h1 style="text-align:center">Bottom Right</h1>
+            <p style="text-align:center"> BOTTOM-RIGHT LOADING BAR  </p>
+            <div id="bottomRight">
+                <input type="button" id="bottomRightButton" value="Bottom Right">
+                <div id="bottomRightLoad" data-fire-url="testD.xml" style="display:none; width:100%; height:60px">
+                    <div class="shining-symbols">
+                        <span>{</span><span>}</span>
+                    </div>
+                </div>
+                <div id="titleArtistYear" style="width:75%; height:20vh;overflow:auto;padding:0.5vh 15vh 5vh  0.5vh"></div>
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+</html>
